@@ -3,9 +3,8 @@
 // LEARNBUDDY - AI TEACHER
 // ==========================================
 
-
 // ==========================================
-// ALL MAIN SECTIONS
+// MAIN SECTIONS
 // ==========================================
 
 const sections = [
@@ -48,23 +47,55 @@ function showSection(index, updateHash = true) {
         const section = document.getElementById(sectionId);
 
         if (section) {
-
             section.classList.toggle(
                 "active",
                 i === index
             );
-
         }
 
     });
 
+    updateNavigation();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    if (updateHash) {
+        window.history.replaceState(
+            null,
+            "",
+            "#" + sections[index]
+        );
+    }
+}
+
+
+// ==========================================
+// UPDATE NAVIGATION
+// ==========================================
+
+function updateNavigation() {
+
     const stepNumber =
         document.getElementById("stepNumber");
 
+    const prevBtn =
+        document.getElementById("prevBtn");
+
+    const nextBtn =
+        document.getElementById("nextBtn");
+
+    const dots =
+        document.querySelectorAll(".dot");
+
+
+    // STEP NUMBER
     if (stepNumber) {
 
         if (
-            index === 2 &&
+            currentSection === 2 &&
             lessonSlides.length > 0
         ) {
 
@@ -74,19 +105,17 @@ function showSection(index, updateHash = true) {
         } else {
 
             stepNumber.textContent =
-                `${index + 1} / ${sections.length}`;
+                `${currentSection + 1} / ${sections.length}`;
 
         }
-
     }
 
-    const prevBtn =
-        document.getElementById("prevBtn");
 
+    // PREVIOUS BUTTON
     if (prevBtn) {
 
         if (
-            index === 2 &&
+            currentSection === 2 &&
             lessonSlides.length > 0
         ) {
 
@@ -96,19 +125,17 @@ function showSection(index, updateHash = true) {
         } else {
 
             prevBtn.disabled =
-                index === 0;
+                currentSection === 0;
 
         }
-
     }
 
-    const nextBtn =
-        document.getElementById("nextBtn");
 
+    // NEXT BUTTON
     if (nextBtn) {
 
         if (
-            index === 2 &&
+            currentSection === 2 &&
             lessonSlides.length > 0
         ) {
 
@@ -132,22 +159,19 @@ function showSection(index, updateHash = true) {
         } else {
 
             nextBtn.disabled =
-                index === sections.length - 1;
+                currentSection === sections.length - 1;
 
             nextBtn.textContent =
                 "Next →";
-
         }
-
     }
 
-    const dots =
-        document.querySelectorAll(".dot");
 
+    // DOTS
     dots.forEach((dot, i) => {
 
         if (
-            index === 2 &&
+            currentSection === 2 &&
             lessonSlides.length > 0
         ) {
 
@@ -160,28 +184,11 @@ function showSection(index, updateHash = true) {
 
             dot.classList.toggle(
                 "active",
-                i === index
+                i === currentSection
             );
-
         }
 
     });
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-    if (updateHash) {
-
-        window.history.replaceState(
-            null,
-            "",
-            "#" + sections[index]
-        );
-
-    }
-
 }
 
 
@@ -191,6 +198,7 @@ function showSection(index, updateHash = true) {
 
 function nextSection() {
 
+    // AI LESSON
     if (
         currentSection === 2 &&
         lessonSlides.length > 0
@@ -206,7 +214,6 @@ function nextSection() {
             displayLessonSlide();
 
             return;
-
         }
 
         stopSpeaking();
@@ -220,6 +227,8 @@ function nextSection() {
         return;
     }
 
+
+    // NORMAL SECTION
     if (
         currentSection <
         sections.length - 1
@@ -228,9 +237,7 @@ function nextSection() {
         showSection(
             currentSection + 1
         );
-
     }
-
 }
 
 
@@ -240,6 +247,7 @@ function nextSection() {
 
 function previousSection() {
 
+    // AI LESSON
     if (
         currentSection === 2 &&
         lessonSlides.length > 0
@@ -254,7 +262,6 @@ function previousSection() {
             displayLessonSlide();
 
             return;
-
         }
 
         showSection(1);
@@ -262,14 +269,14 @@ function previousSection() {
         return;
     }
 
+
+    // NORMAL SECTION
     if (currentSection > 0) {
 
         showSection(
             currentSection - 1
         );
-
     }
-
 }
 
 
@@ -294,7 +301,6 @@ function goToSection(index) {
     }
 
     showSection(index);
-
 }
 
 
@@ -305,7 +311,6 @@ function goToSection(index) {
 function scrollToLearn() {
 
     showSection(1);
-
 }
 
 
@@ -320,13 +325,10 @@ function setTopic(topic) {
         document.getElementById("questionInput");
 
     if (input) {
-
         input.value = topic;
-
     }
 
     startLesson();
-
 }
 
 
@@ -342,14 +344,17 @@ async function startLesson() {
 
     if (!topicInput) {
 
-        alert("Please enter a topic first!");
+        alert(
+            "Please enter a topic first!"
+        );
 
         return;
-
     }
+
 
     const topic =
         topicInput.value.trim();
+
 
     if (!topic) {
 
@@ -358,8 +363,8 @@ async function startLesson() {
         );
 
         return;
-
     }
+
 
     currentTopic = topic;
 
@@ -371,29 +376,25 @@ async function startLesson() {
 
     stopSpeaking();
 
-    const lessonContent =
-        document.getElementById("lessonContent");
 
-    const lessonStatus =
-        document.getElementById("lessonStatus");
+    const lessonContent =
+        document.getElementById(
+            "lessonContent"
+        );
+
 
     if (lessonContent) {
 
-        lessonContent.style.display = "block";
+        lessonContent.style.display =
+            "block";
 
         lessonContent.textContent =
             "🤖 AI Teacher is preparing your lesson...";
-
     }
 
-    if (lessonStatus) {
-
-        lessonStatus.textContent =
-            "Generating your lesson...";
-
-    }
 
     showSection(2);
+
 
     try {
 
@@ -414,16 +415,18 @@ async function startLesson() {
                 }
             );
 
+
         if (!response.ok) {
 
             throw new Error(
-                "Server error"
+                `Server Error: ${response.status}`
             );
-
         }
+
 
         const data =
             await response.json();
+
 
         if (
             data.lessons &&
@@ -434,9 +437,7 @@ async function startLesson() {
             lessonSlides =
                 data.lessons;
 
-        }
-
-        else if (data.lesson) {
+        } else if (data.lesson) {
 
             lessonSlides = [
                 {
@@ -445,67 +446,18 @@ async function startLesson() {
                 }
             ];
 
-        }
-
-        else {
+        } else {
 
             throw new Error(
                 "No lesson content received"
             );
-
         }
+
 
         currentLessonSlide = 0;
 
-        const lessonTopic =
-            document.getElementById(
-                "lessonTopic"
-            );
 
-        if (lessonTopic) {
-
-            lessonTopic.textContent =
-                topic;
-
-        }
-
-        const videoTitle =
-            document.getElementById("videoTitle") ||
-            document.getElementById("lessonVideoTitle");
-
-        if (videoTitle) {
-
-            videoTitle.textContent =
-                "AI Lesson: " + topic;
-
-        }
-
-        const videoSubtitle =
-            document.getElementById(
-                "videoSubtitle"
-            );
-
-        if (videoSubtitle) {
-
-            videoSubtitle.textContent =
-                "Learn " +
-                topic +
-                " in a simple way";
-
-        }
-
-        const lessonHeading =
-            document.getElementById(
-                "lessonHeading"
-            );
-
-        if (lessonHeading) {
-
-            lessonHeading.textContent =
-                "Understanding " +
-                topic;
-
-        }
+        updateLessonInformation(topic);
 
         displayLessonSlide();
 
@@ -518,31 +470,83 @@ async function startLesson() {
             error
         );
 
+
         lessonSlides = [];
 
         currentLessonSlide = 0;
 
         currentLessonText = "";
 
+
         if (lessonContent) {
 
-            lessonContent.style.display =
-                "block";
-
             lessonContent.textContent =
-                "⚠️ Unable to generate the lesson.";
-
+                "⚠️ Unable to generate the lesson. Please check the backend.";
         }
 
-        if (lessonStatus) {
 
-            lessonStatus.textContent =
-                "Make sure the backend server is running.";
+        alert(
+            "⚠️ Backend connection failed. Please check Render backend."
+        );
+    }
+}
 
-        }
 
+// ==========================================
+// UPDATE LESSON INFORMATION
+// ==========================================
+
+function updateLessonInformation(topic) {
+
+    const lessonTopic =
+        document.getElementById(
+            "lessonTopic"
+        );
+
+    const lessonHeading =
+        document.getElementById(
+            "lessonHeading"
+        );
+
+    const videoTitle =
+        document.getElementById(
+            "videoTitle"
+        );
+
+    const videoSubtitle =
+        document.getElementById(
+            "videoSubtitle"
+        );
+
+
+    if (lessonTopic) {
+
+        lessonTopic.textContent =
+            topic;
     }
 
+
+    if (lessonHeading) {
+
+        lessonHeading.textContent =
+            "Understanding " + topic;
+    }
+
+
+    if (videoTitle) {
+
+        videoTitle.textContent =
+            "AI Lesson: " + topic;
+    }
+
+
+    if (videoSubtitle) {
+
+        videoSubtitle.textContent =
+            "Learn " +
+            topic +
+            " in a simple way";
+    }
 }
 
 
@@ -558,19 +562,19 @@ function displayLessonSlide() {
     ) {
 
         return;
-
     }
+
 
     const slide =
         lessonSlides[
             currentLessonSlide
         ];
 
+
     if (!slide) {
-
         return;
-
     }
+
 
     const lessonContent =
         document.getElementById(
@@ -582,21 +586,14 @@ function displayLessonSlide() {
             "lessonStepTitle"
         );
 
-    const lessonStatus =
-        document.getElementById(
-            "lessonStatus"
-        );
-
-    const videoTitle =
-        document.getElementById("videoTitle") ||
-        document.getElementById("lessonVideoTitle");
 
     if (lessonStepTitle) {
 
         lessonStepTitle.textContent =
-            slide.title || "Lesson";
-
+            slide.title ||
+            "Lesson";
     }
+
 
     if (lessonContent) {
 
@@ -605,8 +602,8 @@ function displayLessonSlide() {
 
         lessonContent.textContent =
             slide.content || "";
-
     }
+
 
     currentLessonText =
         (
@@ -617,6 +614,13 @@ function displayLessonSlide() {
             slide.content || ""
         );
 
+
+    const videoTitle =
+        document.getElementById(
+            "videoTitle"
+        );
+
+
     if (videoTitle) {
 
         videoTitle.textContent =
@@ -626,97 +630,12 @@ function displayLessonSlide() {
                 slide.title ||
                 "AI Lesson"
             );
-
     }
 
-    if (lessonStatus) {
 
-        lessonStatus.textContent =
-            `Lesson ${
-                currentLessonSlide + 1
-            } of ${
-                lessonSlides.length
-            }`;
-
-    }
-
-    updateLessonNavigation();
+    updateNavigation();
 
     stopSpeaking();
-
-}
-
-
-// ==========================================
-// UPDATE LESSON NAVIGATION
-// ==========================================
-
-function updateLessonNavigation() {
-
-    const stepNumber =
-        document.getElementById(
-            "stepNumber"
-        );
-
-    const prevBtn =
-        document.getElementById(
-            "prevBtn"
-        );
-
-    const nextBtn =
-        document.getElementById(
-            "nextBtn"
-        );
-
-    if (stepNumber) {
-
-        stepNumber.textContent =
-            `${currentLessonSlide + 1} / ${lessonSlides.length}`;
-
-    }
-
-    if (prevBtn) {
-
-        prevBtn.disabled =
-            currentLessonSlide === 0;
-
-    }
-
-    if (nextBtn) {
-
-        nextBtn.disabled = false;
-
-        if (
-            currentLessonSlide ===
-            lessonSlides.length - 1
-        ) {
-
-            nextBtn.textContent =
-                "Finish ✓";
-
-        } else {
-
-            nextBtn.textContent =
-                "Next →";
-
-        }
-
-    }
-
-    const dots =
-        document.querySelectorAll(".dot");
-
-    dots.forEach(
-        (dot, index) => {
-
-            dot.classList.toggle(
-                "active",
-                index === currentLessonSlide
-            );
-
-        }
-    );
-
 }
 
 
@@ -731,6 +650,7 @@ function toggleSpeak() {
             "speakBtn"
         );
 
+
     if (
         !(
             "speechSynthesis"
@@ -743,8 +663,8 @@ function toggleSpeak() {
         );
 
         return;
-
     }
+
 
     if (
         window.speechSynthesis.speaking
@@ -753,8 +673,8 @@ function toggleSpeak() {
         stopSpeaking();
 
         return;
-
     }
+
 
     if (!currentLessonText) {
 
@@ -763,17 +683,21 @@ function toggleSpeak() {
         );
 
         return;
-
     }
+
 
     currentUtterance =
         new SpeechSynthesisUtterance(
             currentLessonText
         );
 
-    currentUtterance.rate = 0.95;
 
-    currentUtterance.pitch = 1;
+    currentUtterance.rate =
+        0.95;
+
+    currentUtterance.pitch =
+        1;
+
 
     currentUtterance.onstart =
         function () {
@@ -782,22 +706,9 @@ function toggleSpeak() {
 
                 speakBtn.textContent =
                     "⏸";
-
             }
-
-            const lessonStatus =
-                document.getElementById(
-                    "lessonStatus"
-                );
-
-            if (lessonStatus) {
-
-                lessonStatus.textContent =
-                    "🔊 AI Teacher is reading the lesson...";
-
-            }
-
         };
+
 
     currentUtterance.onend =
         function () {
@@ -806,31 +717,13 @@ function toggleSpeak() {
 
                 speakBtn.textContent =
                     "▶";
-
             }
-
-            const lessonStatus =
-                document.getElementById(
-                    "lessonStatus"
-                );
-
-            if (lessonStatus) {
-
-                lessonStatus.textContent =
-                    `Lesson ${
-                        currentLessonSlide + 1
-                    } of ${
-                        lessonSlides.length
-                    }`;
-
-            }
-
         };
+
 
     window.speechSynthesis.speak(
         currentUtterance
     );
-
 }
 
 
@@ -846,21 +739,20 @@ function stopSpeaking() {
     ) {
 
         window.speechSynthesis.cancel();
-
     }
+
 
     const speakBtn =
         document.getElementById(
             "speakBtn"
         );
 
+
     if (speakBtn) {
 
         speakBtn.textContent =
             "▶";
-
     }
-
 }
 
 
@@ -880,14 +772,15 @@ async function askAI() {
             "answerBox"
         );
 
+
     if (!input) {
-
         return;
-
     }
+
 
     const question =
         input.value.trim();
+
 
     if (!question) {
 
@@ -895,14 +788,14 @@ async function askAI() {
 
             answerBox.innerHTML =
                 "⚠️ Please enter a topic.";
-
         }
 
         return;
-
     }
 
-    currentTopic = question;
+
+    currentTopic =
+        question;
 
     lessonSlides = [];
 
@@ -912,6 +805,7 @@ async function askAI() {
 
     stopSpeaking();
 
+
     if (answerBox) {
 
         answerBox.innerHTML = `
@@ -919,8 +813,8 @@ async function askAI() {
             <br><br>
             Preparing your AI lesson...
         `;
-
     }
+
 
     try {
 
@@ -941,16 +835,18 @@ async function askAI() {
                 }
             );
 
+
         if (!response.ok) {
 
             throw new Error(
-                "Server error"
+                `Server Error: ${response.status}`
             );
-
         }
+
 
         const data =
             await response.json();
+
 
         if (
             data.lessons &&
@@ -961,9 +857,7 @@ async function askAI() {
             lessonSlides =
                 data.lessons;
 
-        }
-
-        else if (data.lesson) {
+        } else if (data.lesson) {
 
             lessonSlides = [
                 {
@@ -972,72 +866,21 @@ async function askAI() {
                 }
             ];
 
-        }
-
-        else {
+        } else {
 
             throw new Error(
                 "No lesson content received"
             );
-
         }
+
 
         currentLessonSlide = 0;
 
-        const lessonTopic =
-            document.getElementById(
-                "lessonTopic"
-            );
 
-        if (lessonTopic) {
+        updateLessonInformation(
+            question
+        );
 
-            lessonTopic.textContent =
-                question;
-
-        }
-
-        const lessonHeading =
-            document.getElementById(
-                "lessonHeading"
-            );
-
-        if (lessonHeading) {
-
-            lessonHeading.textContent =
-                "Understanding " +
-                question;
-
-        }
-
-        const videoTitle =
-            document.getElementById(
-                "videoTitle"
-            ) ||
-            document.getElementById(
-                "lessonVideoTitle"
-            );
-
-        if (videoTitle) {
-
-            videoTitle.textContent =
-                "AI Lesson: " +
-                question;
-
-        }
-
-        const videoSubtitle =
-            document.getElementById(
-                "videoSubtitle"
-            );
-
-        if (videoSubtitle) {
-
-            videoSubtitle.textContent =
-                "Learn " +
-                question +
-                " in a simple way";
-
-        }
 
         showSection(2);
 
@@ -1052,20 +895,18 @@ async function askAI() {
             error
         );
 
+
         if (answerBox) {
 
             answerBox.innerHTML = `
                 <strong>🤖 Mia:</strong>
                 <br><br>
                 ⚠️ Something went wrong.
-                <br>
-                Please make sure the backend server is running.
+                <br><br>
+                Please check your backend server.
             `;
-
         }
-
     }
-
 }
 
 
@@ -1082,9 +923,7 @@ function handleQuestionKey(event) {
         event.preventDefault();
 
         askAI();
-
     }
-
 }
 
 
@@ -1097,17 +936,26 @@ function checkAnswer(
     correct
 ) {
 
+    if (!button) {
+        return;
+    }
+
+
     const options =
         button.parentElement
-            .querySelectorAll("button");
+            .querySelectorAll(
+                "button"
+            );
+
 
     options.forEach(
         option => {
 
-            option.disabled = true;
-
+            option.disabled =
+                true;
         }
     );
+
 
     if (correct) {
 
@@ -1126,9 +974,7 @@ function checkAnswer(
 
         button.innerHTML +=
             " ✗";
-
     }
-
 }
 
 
@@ -1148,9 +994,11 @@ function submitAssessment() {
 
     };
 
+
     let score = 0;
 
     let unanswered = 0;
+
 
     Object.keys(answers).forEach(
         name => {
@@ -1160,30 +1008,29 @@ function submitAssessment() {
                     `input[name="${name}"]:checked`
                 );
 
+
             if (!selected) {
 
                 unanswered++;
 
-            }
-
-            else if (
+            } else if (
                 selected.value ===
                 answers[name]
             ) {
 
                 score++;
-
             }
-
         }
     );
 
-    if (unanswered > 0) {
 
-        const result =
-            document.getElementById(
-                "assessmentResult"
-            );
+    const result =
+        document.getElementById(
+            "assessmentResult"
+        );
+
+
+    if (unanswered > 0) {
 
         if (result) {
 
@@ -1193,61 +1040,56 @@ function submitAssessment() {
                 ${unanswered}
                 question(s) remaining.
             `;
-
-            result.className =
-                "assessment-result";
-
         }
 
         return;
-
     }
+
 
     const percentage =
         Math.round(
             (score / 5) * 100
         );
 
+
     const scoreElement =
         document.getElementById(
             "assessmentScore"
         );
 
+
     if (scoreElement) {
 
         scoreElement.textContent =
             `${score} / 5`;
-
     }
+
 
     const progressText =
         document.getElementById(
             "assessmentProgress"
         );
 
+
     const progressFill =
         document.getElementById(
             "assessmentProgressFill"
         );
 
+
     if (progressText) {
 
         progressText.textContent =
             `${percentage}%`;
-
     }
+
 
     if (progressFill) {
 
         progressFill.style.width =
             `${percentage}%`;
-
     }
 
-    const result =
-        document.getElementById(
-            "assessmentResult"
-        );
 
     if (result) {
 
@@ -1256,32 +1098,18 @@ function submitAssessment() {
             result.innerHTML =
                 "🎉 Excellent! You got 5 / 5. Great Job!";
 
-            result.className =
-                "assessment-result great-job";
-
-        }
-
-        else if (score >= 3) {
+        } else if (score >= 3) {
 
             result.innerHTML =
                 `👏 Good job! You scored ${score} / 5. Keep learning!`;
 
-            result.className =
-                "assessment-result good-job";
-
-        }
-
-        else {
+        } else {
 
             result.innerHTML =
                 `📚 You scored ${score} / 5. Revise the lesson and try again!`;
-
-            result.className =
-                "assessment-result try-again";
-
         }
-
     }
+
 
     document
         .querySelectorAll(
@@ -1290,25 +1118,26 @@ function submitAssessment() {
         .forEach(
             input => {
 
-                input.disabled = true;
-
+                input.disabled =
+                    true;
             }
         );
 
+
     const submitBtn =
         document.querySelector(
-            "#assessment button"
+            "#assessment .primary-btn"
         );
+
 
     if (submitBtn) {
 
-        submitBtn.disabled = true;
+        submitBtn.disabled =
+            true;
 
         submitBtn.textContent =
             "Assessment Submitted ✓";
-
     }
-
 }
 
 
@@ -1323,16 +1152,17 @@ function setupFileUpload() {
             "fileInput"
         );
 
+
     const fileName =
         document.getElementById(
             "fileName"
         );
 
+
     if (!fileInput) {
-
         return;
-
     }
+
 
     fileInput.addEventListener(
         "change",
@@ -1340,17 +1170,15 @@ function setupFileUpload() {
 
             if (
                 fileName &&
+                this.files &&
                 this.files.length > 0
             ) {
 
                 fileName.textContent =
                     this.files[0].name;
-
             }
-
         }
     );
-
 }
 
 
@@ -1368,18 +1196,14 @@ function playLesson() {
 
         displayLessonSlide();
 
-    }
-
-    else {
+    } else {
 
         showSection(1);
 
         alert(
             "Please enter a topic in Ask AI first!"
         );
-
     }
-
 }
 
 
@@ -1392,7 +1216,6 @@ function showDemo() {
     alert(
         "🤖 Welcome to LearnBuddy AI Teacher!"
     );
-
 }
 
 
@@ -1408,6 +1231,7 @@ function loadSectionFromHash() {
             ""
         );
 
+
     if (!hash) {
 
         showSection(
@@ -1416,11 +1240,12 @@ function loadSectionFromHash() {
         );
 
         return;
-
     }
+
 
     const index =
         sections.indexOf(hash);
+
 
     if (index !== -1) {
 
@@ -1435,25 +1260,21 @@ function loadSectionFromHash() {
             );
 
             return;
-
         }
+
 
         showSection(
             index,
             false
         );
 
-    }
-
-    else {
+    } else {
 
         showSection(
             0,
             false
         );
-
     }
-
 }
 
 
@@ -1468,34 +1289,6 @@ document.addEventListener(
         loadSectionFromHash();
 
         setupFileUpload();
-
-        const nextBtn =
-            document.getElementById(
-                "nextBtn"
-            );
-
-        if (nextBtn) {
-
-            nextBtn.addEventListener(
-                "click",
-                nextSection
-            );
-
-        }
-
-        const prevBtn =
-            document.getElementById(
-                "prevBtn"
-            );
-
-        if (prevBtn) {
-
-            prevBtn.addEventListener(
-                "click",
-                previousSection
-            );
-
-        }
 
     }
 );
@@ -1513,3 +1306,4 @@ window.addEventListener(
 
     }
 );
+```
