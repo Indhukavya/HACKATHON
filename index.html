@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>LearnBuddy - AI Teacher</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+
+<body>
+
+    <!-- =====================================
+         NAVBAR
+    ====================================== -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🤖
+            </div>
+
+            <div class="logo-info">
+
+                <h2>
+                    Learn<span>Buddy</span>
+                </h2>
+
+                <small>
+                    AI Teacher
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <button onclick="goToSection(0)">
+                Home
+            </button>
+
+            <button onclick="goToSection(1)">
+                Ask AI
+            </button>
+
+            <button onclick="goToSection(2)">
+                AI Lesson
+            </button>
+
+            <button onclick="goToSection(3)">
+                Quiz
+            </button>
+
+            <button onclick="goToSection(4)">
+                Assessment
+            </button>
+
+            <button onclick="goToSection(5)">
+                Progress
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================
+         MAIN
+    ====================================== -->
+
+    <main>
+
+
+        <!-- =================================
+             PAGE 1 : HOME
+        ================================== -->
+
+        <section id="home"
+            class="page-section active">
+
+            <div class="container">
+
+                <div class="hero">
+
+                    <div class="hero-content">
+
+                        <div class="badge">
+                            🤖 AI Powered Learning
+                        </div>
+
+                        <h1>
+                            Learn Smarter
+                            <br>
+                            with
+                            <span>
+                                LearnBuddy
+                            </span>
+                        </h1>
+
+                        <p>
+                            Your personal AI teacher that
+                            explains difficult topics in a
+                            simple and easy way.
+                        </p>
+
+                        <button
+                            class="primary-btn"
+                            onclick="goToSection(1)">
+
+                            Start Learning →
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="teacher-card">
+
+                        <div class="teacher-avatar">
+                            🤖
+                        </div>
+
+                        <h3>
+                            Meet Mia
+                        </h3>
+
+                        <p>
+                            Your friendly AI Teacher
+                        </p>
+
+                        <div class="teacher-status">
+                            ● Online & Ready to Teach
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             PAGE 2 : ASK AI
+        ================================== -->
+
+        <section id="ask"
+            class="page-section">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <div class="badge">
+                        💬 Ask Anything
+                    </div>
+
+                    <h2>
+                        Ask AI
+                    </h2>
+
+                    <p>
+                        Enter a topic and Mia will
+                        create a lesson for you.
+                    </p>
+
+                </div>
+
+
+                <div class="ask-card">
+
+                    <div class="ask-box">
+
+                        <input
+                            type="text"
+                            id="questionInput"
+                            placeholder="Enter a topic e.g. Java"
+                            onkeydown="handleQuestionKey(event)"
+                        >
+
+                        <button onclick="askAI()">
+                            Ask
+                        </button>
+
+                    </div>
+
+
+                    <div id="answerBox"
+                        class="answer-box">
+
+                        🤖 Hi! Enter a topic to start
+                        your AI lesson.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             PAGE 3 : AI LESSON
+        ================================== -->
+
+        <section id="lesson"
+            class="page-section">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <div id="lessonTopic"
+                        class="badge">
+
+                        ✨ AI Lesson
+
+                    </div>
+
+
+                    <h2 id="lessonHeading">
+
+                        Your AI Generated Lesson
+
+                    </h2>
+
+
+                    <p>
+
+                        Learn the topic step by step
+                        with your AI teacher.
+
+                    </p>
+
+                </div>
+
+
+
+                <div class="lesson-card">
+
+
+                    <!-- LESSON HEADER -->
+
+                    <div class="lesson-top">
+
+                        <div>
+
+                            <h3 id="videoTitle">
+                                Let's learn!
+                            </h3>
+
+                            <p id="videoSubtitle">
+                                Your lesson will appear here.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- LESSON SLIDE -->
+
+                    <div class="lesson-slide">
+
+                        <div class="lesson-icon">
+                            🤖
+                        </div>
+
+
+                        <h2 id="lessonVideoTitle">
+                            AI Teacher
+                        </h2>
+
+
+                        <h3 id="lessonStepTitle">
+                            Your lesson will appear here
+                        </h3>
+
+
+                        <!-- IMPORTANT:
+                             ONLY ONE lessonContent -->
+                        <div id="lessonContent"
+                            class="lesson-text-card">
+
+                            Enter a topic in Ask AI
+                            to start your lesson.
+
+                        </div>
+
+
+                        <!-- SPEAK BUTTON -->
+
+                        <button
+                            id="speakBtn"
+                            class="play-button"
+                            onclick="toggleSpeak()">
+
+                            ▶
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             PAGE 4 : QUIZ
+        ================================== -->
+
+        <section id="quiz"
+            class="page-section">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <div class="badge">
+                        🧠 Test Your Knowledge
+                    </div>
+
+                    <h2>
+                        Quick Quiz
+                    </h2>
+
+                    <p>
+                        Let's check what you learned.
+                    </p>
+
+                </div>
+
+
+                <div class="quiz-card">
+
+                    <div class="quiz-question">
+                        What does AI stand for?
+                    </div>
+
+
+                    <div class="options">
+
+                        <button
+                            onclick="checkAnswer(this, true)">
+                            A. Artificial Intelligence
+                        </button>
+
+                        <button
+                            onclick="checkAnswer(this, false)">
+                            B. Automated Internet
+                        </button>
+
+                        <button
+                            onclick="checkAnswer(this, false)">
+                            C. Advanced Information
+                        </button>
+
+                        <button
+                            onclick="checkAnswer(this, false)">
+                            D. Artificial Internet
+                        </button>
+
+                    </div>
+
+
+                    <div id="quizResult"
+                        class="quiz-result">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             PAGE 5 : ASSESSMENT
+        ================================== -->
+
+        <section id="assessment"
+            class="page-section">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <div class="badge">
+                        📝 Final Assessment
+                    </div>
+
+                    <h2>
+                        Test Your Knowledge
+                    </h2>
+
+                    <p>
+                        Complete the assessment and
+                        check your understanding.
+                    </p>
+
+                </div>
+
+
+                <div class="assessment-card">
+
+
+                    <div class="assessment-header">
+
+                        <div>
+
+                            <h3>
+                                Java Fundamentals
+                            </h3>
+
+                            <p>
+                                Answer all questions.
+                            </p>
+
+                        </div>
+
+
+                        <div class="assessment-score">
+
+                            <span id="assessmentScore">
+                                0 / 5
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- QUESTION 1 -->
+
+                    <div class="assessment-question">
+
+                        <h4>
+                            1. Which keyword is used
+                            to create a class in Java?
+                        </h4>
+
+                        <label>
+                            <input type="radio"
+                                name="a1"
+                                value="class">
+                            class
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a1"
+                                value="function">
+                            function
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a1"
+                                value="define">
+                            define
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a1"
+                                value="new">
+                            new
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- QUESTION 2 -->
+
+                    <div class="assessment-question">
+
+                        <h4>
+                            2. Which method is the
+                            starting point of Java?
+                        </h4>
+
+                        <label>
+                            <input type="radio"
+                                name="a2"
+                                value="start">
+                            start()
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a2"
+                                value="main">
+                            main()
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a2"
+                                value="run">
+                            run()
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a2"
+                                value="execute">
+                            execute()
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- QUESTION 3 -->
+
+                    <div class="assessment-question">
+
+                        <h4>
+                            3. Which data type is used
+                            to store whole numbers?
+                        </h4>
+
+                        <label>
+                            <input type="radio"
+                                name="a3"
+                                value="int">
+                            int
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a3"
+                                value="float">
+                            float
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a3"
+                                value="char">
+                            char
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a3"
+                                value="boolean">
+                            boolean
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- QUESTION 4 -->
+
+                    <div class="assessment-question">
+
+                        <h4>
+                            4. Which symbol is used
+                            for single-line comments?
+                        </h4>
+
+                        <label>
+                            <input type="radio"
+                                name="a4"
+                                value="//">
+                            //
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a4"
+                                value="#">
+                            #
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a4"
+                                value="comment">
+                            comment
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a4"
+                                value="**">
+                            **
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- QUESTION 5 -->
+
+                    <div class="assessment-question">
+
+                        <h4>
+                            5. Which keyword is used
+                            for inheritance in Java?
+                        </h4>
+
+                        <label>
+                            <input type="radio"
+                                name="a5"
+                                value="extends">
+                            extends
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a5"
+                                value="implements">
+                            implements
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a5"
+                                value="inherits">
+                            inherits
+                        </label>
+
+                        <label>
+                            <input type="radio"
+                                name="a5"
+                                value="super">
+                            super
+                        </label>
+
+                    </div>
+
+
+
+                    <button
+                        class="primary-btn"
+                        onclick="submitAssessment()">
+
+                        Submit Assessment
+
+                    </button>
+
+
+                    <div id="assessmentResult"
+                        class="assessment-result">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             PAGE 6 : PROGRESS
+        ================================== -->
+
+        <section id="progress"
+            class="page-section">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <div class="badge">
+                        📊 Your Performance
+                    </div>
+
+                    <h2>
+                        Learning Progress
+                    </h2>
+
+                    <p>
+                        Keep learning and improve
+                        your knowledge.
+                    </p>
+
+                </div>
+
+
+                <div class="progress-card">
+
+
+                    <div class="progress-item">
+
+                        <div class="progress-header">
+
+                            <span>
+                                Overall Progress
+                            </span>
+
+                            <strong>
+                                72%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                style="width:72%;">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="progress-item">
+
+                        <div class="progress-header">
+
+                            <span>
+                                Lessons Completed
+                            </span>
+
+                            <strong>
+                                8 / 10
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                style="width:80%;">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="progress-item">
+
+                        <div class="progress-header">
+
+                            <span>
+                                Quiz Score
+                            </span>
+
+                            <strong>
+                                85%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                style="width:85%;">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="progress-item">
+
+                        <div class="progress-header">
+
+                            <span>
+                                Assessment Score
+                            </span>
+
+                            <strong id="assessmentProgress">
+                                0%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                id="assessmentProgressFill"
+                                class="progress-fill"
+                                style="width:0%;">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="great-job">
+
+                        🎉 Great job!
+
+                        <br>
+
+                        Keep learning with LearnBuddy.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================
+         BOTTOM NAVIGATION
+    ====================================== -->
+
+    <div class="step-navigation">
+
+        <button
+            id="prevBtn"
+            onclick="previousSection()">
+
+            ← Previous
+
+        </button>
+
+
+        <div class="step-info">
+
+            <span id="stepNumber">
+                1 / 6
+            </span>
+
+
+            <div class="step-dots">
+
+                <span class="dot active"></span>
+
+                <span class="dot"></span>
+
+                <span class="dot"></span>
+
+                <span class="dot"></span>
+
+                <span class="dot"></span>
+
+                <span class="dot"></span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="nextBtn"
+            onclick="nextSection()">
+
+            Next →
+
+        </button>
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
