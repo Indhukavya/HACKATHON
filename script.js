@@ -92,25 +92,27 @@ function updateNavigation() {
 
 
     // STEP NUMBER
-    if (stepNumber) {
+    // STEP NUMBER
+if (stepNumber) {
 
-        if (
-            currentSection === 2 &&
-            lessonSlides.length > 0
-        ) {
+    if (
+        currentSection === 2 &&
+        lessonSlides.length > 0
+    ) {
 
-            stepNumber.textContent =
-                `${currentLessonSlide + 1} / ${lessonSlides.length}`;
+        stepNumber.textContent =
+            String(currentLessonSlide + 1) +
+            " / " +
+            String(lessonSlides.length);
 
-        } else {
+    } else {
 
-            stepNumber.textContent =
-                `${currentSection + 1} / ${sections.length}`;
-
-        }
+        stepNumber.textContent =
+            String(currentSection + 1) +
+            " / " +
+            String(sections.length);
     }
-
-
+}
     // PREVIOUS BUTTON
     if (prevBtn) {
 
