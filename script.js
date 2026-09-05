@@ -1,3 +1,4 @@
+```javascript
 // ==========================================
 // LEARNBUDDY - AI TEACHER
 // ==========================================
@@ -42,8 +43,6 @@ function showSection(index, updateHash = true) {
 
     currentSection = index;
 
-
-    // Hide / Show sections
     sections.forEach((sectionId, i) => {
 
         const section = document.getElementById(sectionId);
@@ -58,11 +57,6 @@ function showSection(index, updateHash = true) {
         }
 
     });
-
-
-    // ======================================
-    // STEP NUMBER
-    // ======================================
 
     const stepNumber =
         document.getElementById("stepNumber");
@@ -86,11 +80,6 @@ function showSection(index, updateHash = true) {
 
     }
 
-
-    // ======================================
-    // PREVIOUS BUTTON
-    // ======================================
-
     const prevBtn =
         document.getElementById("prevBtn");
 
@@ -112,11 +101,6 @@ function showSection(index, updateHash = true) {
         }
 
     }
-
-
-    // ======================================
-    // NEXT BUTTON
-    // ======================================
 
     const nextBtn =
         document.getElementById("nextBtn");
@@ -157,11 +141,6 @@ function showSection(index, updateHash = true) {
 
     }
 
-
-    // ======================================
-    // BOTTOM DOTS
-    // ======================================
-
     const dots =
         document.querySelectorAll(".dot");
 
@@ -188,20 +167,10 @@ function showSection(index, updateHash = true) {
 
     });
 
-
-    // ======================================
-    // SCROLL TOP
-    // ======================================
-
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
-
-    // ======================================
-    // UPDATE URL
-    // ======================================
 
     if (updateHash) {
 
@@ -222,10 +191,6 @@ function showSection(index, updateHash = true) {
 
 function nextSection() {
 
-    // ======================================
-    // AI LESSON
-    // ======================================
-
     if (
         currentSection === 2 &&
         lessonSlides.length > 0
@@ -244,9 +209,6 @@ function nextSection() {
 
         }
 
-
-        // Lesson completed
-
         stopSpeaking();
 
         alert(
@@ -257,11 +219,6 @@ function nextSection() {
 
         return;
     }
-
-
-    // ======================================
-    // NORMAL NAVIGATION
-    // ======================================
 
     if (
         currentSection <
@@ -283,10 +240,6 @@ function nextSection() {
 
 function previousSection() {
 
-    // ======================================
-    // AI LESSON
-    // ======================================
-
     if (
         currentSection === 2 &&
         lessonSlides.length > 0
@@ -304,18 +257,10 @@ function previousSection() {
 
         }
 
-        // First lesson slide
-        // Go back to Ask AI
-
         showSection(1);
 
         return;
     }
-
-
-    // ======================================
-    // NORMAL NAVIGATION
-    // ======================================
 
     if (currentSection > 0) {
 
@@ -333,9 +278,6 @@ function previousSection() {
 // ==========================================
 
 function goToSection(index) {
-
-    // If user directly clicks AI Lesson
-    // without generating a lesson
 
     if (
         index === 2 &&
@@ -398,7 +340,6 @@ async function startLesson() {
         document.getElementById("topicInput") ||
         document.getElementById("questionInput");
 
-
     if (!topicInput) {
 
         alert("Please enter a topic first!");
@@ -407,10 +348,8 @@ async function startLesson() {
 
     }
 
-
     const topic =
         topicInput.value.trim();
-
 
     if (!topic) {
 
@@ -422,13 +361,7 @@ async function startLesson() {
 
     }
 
-
-    // Save topic
-
     currentTopic = topic;
-
-
-    // Reset lesson
 
     lessonSlides = [];
 
@@ -438,15 +371,11 @@ async function startLesson() {
 
     stopSpeaking();
 
-
-    // Lesson elements
-
     const lessonContent =
         document.getElementById("lessonContent");
 
     const lessonStatus =
         document.getElementById("lessonStatus");
-
 
     if (lessonContent) {
 
@@ -457,7 +386,6 @@ async function startLesson() {
 
     }
 
-
     if (lessonStatus) {
 
         lessonStatus.textContent =
@@ -465,19 +393,13 @@ async function startLesson() {
 
     }
 
-
-    // ======================================
-    // MOVE TO AI LESSON PAGE
-    // ======================================
-
     showSection(2);
-
 
     try {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/lesson",
+                "https://learnbuddy-xa2k.onrender.com/api/lesson",
                 {
                     method: "POST",
 
@@ -492,7 +414,6 @@ async function startLesson() {
                 }
             );
 
-
         if (!response.ok) {
 
             throw new Error(
@@ -501,14 +422,8 @@ async function startLesson() {
 
         }
 
-
         const data =
             await response.json();
-
-
-        // ==================================
-        // BACKEND RETURNS LESSONS ARRAY
-        // ==================================
 
         if (
             data.lessons &&
@@ -521,11 +436,6 @@ async function startLesson() {
 
         }
 
-
-        // ==================================
-        // BACKEND RETURNS SINGLE LESSON
-        // ==================================
-
         else if (data.lesson) {
 
             lessonSlides = [
@@ -537,11 +447,6 @@ async function startLesson() {
 
         }
 
-
-        // ==================================
-        // NO LESSON
-        // ==================================
-
         else {
 
             throw new Error(
@@ -550,13 +455,7 @@ async function startLesson() {
 
         }
 
-
         currentLessonSlide = 0;
-
-
-        // ==================================
-        // UPDATE TOPIC
-        // ==================================
 
         const lessonTopic =
             document.getElementById(
@@ -570,11 +469,6 @@ async function startLesson() {
 
         }
 
-
-        // ==================================
-        // VIDEO TITLE
-        // ==================================
-
         const videoTitle =
             document.getElementById("videoTitle") ||
             document.getElementById("lessonVideoTitle");
@@ -585,11 +479,6 @@ async function startLesson() {
                 "AI Lesson: " + topic;
 
         }
-
-
-        // ==================================
-        // VIDEO SUBTITLE
-        // ==================================
 
         const videoSubtitle =
             document.getElementById(
@@ -605,11 +494,6 @@ async function startLesson() {
 
         }
 
-
-        // ==================================
-        // LESSON HEADING
-        // ==================================
-
         const lessonHeading =
             document.getElementById(
                 "lessonHeading"
@@ -623,15 +507,9 @@ async function startLesson() {
 
         }
 
-
-        // ==================================
-        // DISPLAY FIRST LESSON
-        // ==================================
-
         displayLessonSlide();
 
     }
-
 
     catch (error) {
 
@@ -640,13 +518,11 @@ async function startLesson() {
             error
         );
 
-
         lessonSlides = [];
 
         currentLessonSlide = 0;
 
         currentLessonText = "";
-
 
         if (lessonContent) {
 
@@ -658,11 +534,10 @@ async function startLesson() {
 
         }
 
-
         if (lessonStatus) {
 
             lessonStatus.textContent =
-                "Make sure the backend server is running on port 5000.";
+                "Make sure the backend server is running.";
 
         }
 
@@ -686,23 +561,16 @@ function displayLessonSlide() {
 
     }
 
-
     const slide =
         lessonSlides[
             currentLessonSlide
         ];
-
 
     if (!slide) {
 
         return;
 
     }
-
-
-    // ======================================
-    // GET ELEMENTS
-    // ======================================
 
     const lessonContent =
         document.getElementById(
@@ -723,22 +591,12 @@ function displayLessonSlide() {
         document.getElementById("videoTitle") ||
         document.getElementById("lessonVideoTitle");
 
-
-    // ======================================
-    // TITLE
-    // ======================================
-
     if (lessonStepTitle) {
 
         lessonStepTitle.textContent =
             slide.title || "Lesson";
 
     }
-
-
-    // ======================================
-    // CONTENT
-    // ======================================
 
     if (lessonContent) {
 
@@ -750,11 +608,6 @@ function displayLessonSlide() {
 
     }
 
-
-    // ======================================
-    // SPEECH TEXT
-    // ======================================
-
     currentLessonText =
         (
             slide.title || ""
@@ -763,11 +616,6 @@ function displayLessonSlide() {
         (
             slide.content || ""
         );
-
-
-    // ======================================
-    // VIDEO TITLE
-    // ======================================
 
     if (videoTitle) {
 
@@ -781,11 +629,6 @@ function displayLessonSlide() {
 
     }
 
-
-    // ======================================
-    // STATUS
-    // ======================================
-
     if (lessonStatus) {
 
         lessonStatus.textContent =
@@ -797,13 +640,7 @@ function displayLessonSlide() {
 
     }
 
-
-    // ======================================
-    // NAVIGATION
-    // ======================================
-
     updateLessonNavigation();
-
 
     stopSpeaking();
 
@@ -831,11 +668,6 @@ function updateLessonNavigation() {
             "nextBtn"
         );
 
-
-    // ======================================
-    // STEP NUMBER
-    // ======================================
-
     if (stepNumber) {
 
         stepNumber.textContent =
@@ -843,22 +675,12 @@ function updateLessonNavigation() {
 
     }
 
-
-    // ======================================
-    // PREVIOUS
-    // ======================================
-
     if (prevBtn) {
 
         prevBtn.disabled =
             currentLessonSlide === 0;
 
     }
-
-
-    // ======================================
-    // NEXT
-    // ======================================
 
     if (nextBtn) {
 
@@ -881,14 +703,8 @@ function updateLessonNavigation() {
 
     }
 
-
-    // ======================================
-    // DOTS
-    // ======================================
-
     const dots =
         document.querySelectorAll(".dot");
-
 
     dots.forEach(
         (dot, index) => {
@@ -915,7 +731,6 @@ function toggleSpeak() {
             "speakBtn"
         );
 
-
     if (
         !(
             "speechSynthesis"
@@ -931,7 +746,6 @@ function toggleSpeak() {
 
     }
 
-
     if (
         window.speechSynthesis.speaking
     ) {
@@ -941,7 +755,6 @@ function toggleSpeak() {
         return;
 
     }
-
 
     if (!currentLessonText) {
 
@@ -953,17 +766,14 @@ function toggleSpeak() {
 
     }
 
-
     currentUtterance =
         new SpeechSynthesisUtterance(
             currentLessonText
         );
 
-
     currentUtterance.rate = 0.95;
 
     currentUtterance.pitch = 1;
-
 
     currentUtterance.onstart =
         function () {
@@ -988,7 +798,6 @@ function toggleSpeak() {
             }
 
         };
-
 
     currentUtterance.onend =
         function () {
@@ -1018,7 +827,6 @@ function toggleSpeak() {
 
         };
 
-
     window.speechSynthesis.speak(
         currentUtterance
     );
@@ -1040,7 +848,6 @@ function stopSpeaking() {
         window.speechSynthesis.cancel();
 
     }
-
 
     const speakBtn =
         document.getElementById(
@@ -1068,12 +875,10 @@ async function askAI() {
             "questionInput"
         );
 
-
     const answerBox =
         document.getElementById(
             "answerBox"
         );
-
 
     if (!input) {
 
@@ -1081,10 +886,8 @@ async function askAI() {
 
     }
 
-
     const question =
         input.value.trim();
-
 
     if (!question) {
 
@@ -1099,17 +902,7 @@ async function askAI() {
 
     }
 
-
-    // ======================================
-    // SAVE TOPIC
-    // ======================================
-
     currentTopic = question;
-
-
-    // ======================================
-    // RESET LESSON
-    // ======================================
 
     lessonSlides = [];
 
@@ -1118,11 +911,6 @@ async function askAI() {
     currentLessonText = "";
 
     stopSpeaking();
-
-
-    // ======================================
-    // SHOW LOADING IN ASK AI
-    // ======================================
 
     if (answerBox) {
 
@@ -1134,12 +922,11 @@ async function askAI() {
 
     }
 
-
     try {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/lesson",
+                "https://learnbuddy-xa2k.onrender.com/api/lesson",
                 {
                     method: "POST",
 
@@ -1154,7 +941,6 @@ async function askAI() {
                 }
             );
 
-
         if (!response.ok) {
 
             throw new Error(
@@ -1163,14 +949,8 @@ async function askAI() {
 
         }
 
-
         const data =
             await response.json();
-
-
-        // ==================================
-        // GET LESSONS
-        // ==================================
 
         if (
             data.lessons &&
@@ -1183,11 +963,6 @@ async function askAI() {
 
         }
 
-
-        // ==================================
-        // SINGLE LESSON RESPONSE
-        // ==================================
-
         else if (data.lesson) {
 
             lessonSlides = [
@@ -1199,7 +974,6 @@ async function askAI() {
 
         }
 
-
         else {
 
             throw new Error(
@@ -1208,13 +982,7 @@ async function askAI() {
 
         }
 
-
         currentLessonSlide = 0;
-
-
-        // ==================================
-        // UPDATE LESSON PAGE
-        // ==================================
 
         const lessonTopic =
             document.getElementById(
@@ -1228,7 +996,6 @@ async function askAI() {
 
         }
 
-
         const lessonHeading =
             document.getElementById(
                 "lessonHeading"
@@ -1241,7 +1008,6 @@ async function askAI() {
                 question;
 
         }
-
 
         const videoTitle =
             document.getElementById(
@@ -1259,7 +1025,6 @@ async function askAI() {
 
         }
 
-
         const videoSubtitle =
             document.getElementById(
                 "videoSubtitle"
@@ -1274,23 +1039,11 @@ async function askAI() {
 
         }
 
-
-        // ==================================
-        // ⭐ IMPORTANT
-        // GO DIRECTLY TO AI LESSON PAGE
-        // ==================================
-
         showSection(2);
-
-
-        // ==================================
-        // SHOW FIRST LESSON
-        // ==================================
 
         displayLessonSlide();
 
     }
-
 
     catch (error) {
 
@@ -1299,7 +1052,6 @@ async function askAI() {
             error
         );
 
-
         if (answerBox) {
 
             answerBox.innerHTML = `
@@ -1307,8 +1059,7 @@ async function askAI() {
                 <br><br>
                 ⚠️ Something went wrong.
                 <br>
-                Please make sure the backend
-                server is running on port 5000.
+                Please make sure the backend server is running.
             `;
 
         }
@@ -1350,7 +1101,6 @@ function checkAnswer(
         button.parentElement
             .querySelectorAll("button");
 
-
     options.forEach(
         option => {
 
@@ -1358,7 +1108,6 @@ function checkAnswer(
 
         }
     );
-
 
     if (correct) {
 
@@ -1399,11 +1148,9 @@ function submitAssessment() {
 
     };
 
-
     let score = 0;
 
     let unanswered = 0;
-
 
     Object.keys(answers).forEach(
         name => {
@@ -1412,7 +1159,6 @@ function submitAssessment() {
                 document.querySelector(
                     `input[name="${name}"]:checked`
                 );
-
 
             if (!selected) {
 
@@ -1431,7 +1177,6 @@ function submitAssessment() {
 
         }
     );
-
 
     if (unanswered > 0) {
 
@@ -1458,12 +1203,10 @@ function submitAssessment() {
 
     }
 
-
     const percentage =
         Math.round(
             (score / 5) * 100
         );
-
 
     const scoreElement =
         document.getElementById(
@@ -1477,7 +1220,6 @@ function submitAssessment() {
 
     }
 
-
     const progressText =
         document.getElementById(
             "assessmentProgress"
@@ -1488,14 +1230,12 @@ function submitAssessment() {
             "assessmentProgressFill"
         );
 
-
     if (progressText) {
 
         progressText.textContent =
             `${percentage}%`;
 
     }
-
 
     if (progressFill) {
 
@@ -1504,12 +1244,10 @@ function submitAssessment() {
 
     }
 
-
     const result =
         document.getElementById(
             "assessmentResult"
         );
-
 
     if (result) {
 
@@ -1545,7 +1283,6 @@ function submitAssessment() {
 
     }
 
-
     document
         .querySelectorAll(
             "#assessment input"
@@ -1558,12 +1295,10 @@ function submitAssessment() {
             }
         );
 
-
     const submitBtn =
         document.querySelector(
             "#assessment button"
         );
-
 
     if (submitBtn) {
 
@@ -1588,19 +1323,16 @@ function setupFileUpload() {
             "fileInput"
         );
 
-
     const fileName =
         document.getElementById(
             "fileName"
         );
-
 
     if (!fileInput) {
 
         return;
 
     }
-
 
     fileInput.addEventListener(
         "change",
@@ -1676,7 +1408,6 @@ function loadSectionFromHash() {
             ""
         );
 
-
     if (!hash) {
 
         showSection(
@@ -1688,16 +1419,10 @@ function loadSectionFromHash() {
 
     }
 
-
     const index =
         sections.indexOf(hash);
 
-
     if (index !== -1) {
-
-        // ==================================
-        // PREVENT EMPTY AI LESSON PAGE
-        // ==================================
 
         if (
             index === 2 &&
@@ -1712,7 +1437,6 @@ function loadSectionFromHash() {
             return;
 
         }
-
 
         showSection(
             index,
@@ -1745,16 +1469,10 @@ document.addEventListener(
 
         setupFileUpload();
 
-
-        // ==================================
-        // NEXT BUTTON
-        // ==================================
-
         const nextBtn =
             document.getElementById(
                 "nextBtn"
             );
-
 
         if (nextBtn) {
 
@@ -1765,16 +1483,10 @@ document.addEventListener(
 
         }
 
-
-        // ==================================
-        // PREVIOUS BUTTON
-        // ==================================
-
         const prevBtn =
             document.getElementById(
                 "prevBtn"
             );
-
 
         if (prevBtn) {
 
